@@ -1,0 +1,180 @@
+WindowManager:
+    FirstWindow:
+    SecondScreen:
+
+<FirstWindow>:
+    name:"first"
+    BoxLayout:
+        orientation : "vertical"
+        #size: root.width,root.height
+        spacing: "15dp"
+        padding:"15dp"
+        Label:
+            text:"Αγωνιστικό Ημερολόγιο Ιστιοπλοΐας"
+            pos_hint:{"center_x": 0.5}
+            size_hint:0.5,0.1
+            font_name:"Roboto-Italic.ttf"
+            font_size : "28dp"
+            color:66/255,245/255,249/255
+
+
+        Image:
+            source:"images/pexels-anthony-133606.jpg"
+            size_hint:1,2
+
+        Button:
+            size_hint:0.2,None
+            pos_hint: {"center_x":0.5}
+            height:"50dp"
+            text:"Είσοδος"
+            on_release:app.root.current ="second"
+            font_name:"fonts/Roboto-Italic.ttf"
+            font_size : "20dp"
+            color:66/255,245/255,249/255
+
+<SecondScreen>:
+    name:"second"
+    GridLayout:
+        cols:2
+        #1 στήλη
+        GridLayout:
+            rows:8
+            spacing:"3dp"
+            col_default_width:"400dp"
+            col_force_default:True
+            #1η Γραμμή
+            Spinner:
+                id:spinner_id
+                text : "Επιλέξτε Περιφέρεια"
+                values:['Ευβοϊκός','Κρήτη','Θερμαϊκός', 'Νησιά Αιγαίου','Θρακικό Πέλαγος','Νότια Πελοπόννησος','Ιόνιο','Πατραϊκός - Κορινθιακός','Κεντρική Ελλάδα','Σαρωνικός']
+                on_text:root.spinner_choice(self.text)
+                color:66/255,245/255,249/255
+                font_name:"fonts/Roboto-Italic.ttf"
+                font_size : "20dp"
+
+            #2η Γραμμή
+            Button:
+                text:"Επόμενος Αγώνας"
+                color:66/255,245/255,249/255
+                font_name:"fonts/Roboto-Italic.ttf"
+                font_size : "20dp"
+                on_release:root.next_race_retrieve()
+
+            #3η Γραμμή
+            Button:
+                id:export_file
+                text:"Αποθήκευση Ημερολογίου σε αρχείο ics"
+                font_name:"fonts/Roboto-Italic.ttf"
+                font_size : "20dp"
+                on_release:root.save_file()
+                color:66/255,245/255,249/255
+
+            #4η Γραμμή
+            BoxLayout:
+                Button:
+                    text: "Αποστολή ημερολογίου{}σε Google Calendar".format("\n")
+                    font_name:"fonts/Roboto-Italic.ttf"
+                    font_size : "16dp"
+                    color:66/255,245/255,249/255
+                    on_release:root.google_api_connection()
+                Button:
+                    text: "Αποστολή ημερολογίου{}σε Microsoft account".format("\n")
+                    font_name:"fonts/Roboto-Italic.ttf"
+                    font_size : "16dp"
+                    color:66/255,245/255,249/255
+                    on_release:root.ms_graph_api_connection()
+
+            #5η Γραμμή
+            BoxLayout:
+                spacing:"3dp"
+                Button:
+                    text:"Ιστοσελίδα ΕΑΘ"
+                    font_name:"fonts/Roboto-Italic.ttf"
+                    font_size : "20dp"
+                    on_release:root.open_url()
+                    color:66/255,245/255,249/255
+                Button:
+                    text: "Ενημέρωση{}Ημερολογίου".format("\n")
+                    font_name:"fonts/Roboto-Italic.ttf"
+                    font_size : "20dp"
+                    on_release:root.update_calendar()
+                    color:66/255,245/255,249/255
+
+
+            #6η Γραμμή
+            Button:
+                size_hint:1,0.5
+                text:"Επαναφορά"
+                font_name:"fonts/Roboto-Italic.ttf"
+                font_size : "20dp"
+                color:66/255,245/255,249/255
+                on_release:root.restart()
+
+
+            #7η Γραμμή
+            BoxLayout:
+                spacing:"3dp"
+                size_hint:0.3,0.5
+                Button:
+                    text:"Οδηγίες χρήσης"
+                    font_name:"fonts/Roboto-Italic.ttf"
+                    font_size : "18dp"
+                    color:66/255,245/255,249/255
+                    on_release:root.user_manual()
+
+                Button:
+                    text: "Σχετικά"
+                    font_name:"fonts/Roboto-Italic.ttf"
+                    font_size : "20dp"
+                    on_release:root.about_app()
+                    color:66/255,245/255,249/255
+                Button:
+                    text:"Έξοδος"
+                    font_name:"fonts/Roboto-Italic.ttf"
+                    font_size : "20dp"
+                    on_release:root.quit_app()
+                    color:66/255,245/255,249/255
+
+        #2η στήλη
+        GridLayout:
+            rows:4
+            size_hint:2.3,1
+            #1η Γραμμή
+            Label:
+                size_hint:1,0.1
+                text : "Ημερολόγιο Αγώνων Ανοιχτής Θαλάσσης"
+                font_name:"fonts/Roboto-Italic.ttf"
+                font_size : "26dp"
+                color:66/255,245/255,249/255
+
+            #2η Γραμμή
+            Label:
+                size_hint:1,0.1
+                size_hint:1,0.1
+                id:screen_title
+                text : root.title
+                font_name:"fonts/Roboto-Italic.ttf"
+                font_size : "26dp"
+                color:66/255,245/255,249/255
+
+            #3h
+            ScrollView:
+
+                Label:
+                    id: main_screen
+                    text : root.screen
+                    font_name:"fonts/Roboto-Italic.ttf"
+                    font_size : "20dp"
+                    size_hint:None,None
+                    size:self.texture_size
+                    color:66/255,245/255,249/255
+
+            #3η Γραμμή
+            Label:
+                size_hint:1,0.2
+                id:date
+                text: root.current_datetime
+                font_name:"fonts/Roboto-Italic.ttf"
+                font_size : "20dp"
+                color:66/255,245/255,249/255
+
